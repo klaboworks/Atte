@@ -1,7 +1,9 @@
-.header{
+.header {
+    margin: 0;
     height: 72px;
     display: flex;
     align-items: center;
+    background-color: white;
 }
 
 .header__inner {
@@ -13,18 +15,32 @@
     align-items: center;
 }
 
-.menu__list{
+.menu__list {
     display: flex;
     gap: 48px;
 }
 
-.footer{
+.menu__items>a,
+.menu__items>form>button{
+    text-decoration: none;
+    border: none;
+    background-color: inherit;
+    font-size: 16px;
+    color: black;
+    cursor: pointer;
+}
+
+.footer {
     text-align: center;
     height: 40px;
     line-height: 40px;
+    background-color: white;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
 }
 
-.footer__copy{
+.footer__copy {
     font-size: 16px;
     font-weight: bold;
 }
