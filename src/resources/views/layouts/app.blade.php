@@ -21,7 +21,12 @@
                     <ul class="menu__list">
                         <li class="menu__items"><a href="">ホーム</a></li>
                         <li class="menu__items"><a href="">日付一覧</a></li>
-                        <li class="menu__items"><a href="">ログアウト</a></li>
+                        <li class="menu__items">
+                            <form action="/logout" method="post">
+                                @csrf
+                                <button>ログアウト</button>
+                            </form>
+                        </li>
                     </ul>
                 </nav>
             </div>
