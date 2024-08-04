@@ -8,7 +8,7 @@
 <section class="login">
     <div class="login__inner">
         <div class="login__title">
-            <h2 class="login__title-text">会員登録</h2>
+            <h2 class="login__title-text">ログイン</h2>
         </div>
         <div class="login__form">
             <form action="/login" method="post" class="login__form-items">

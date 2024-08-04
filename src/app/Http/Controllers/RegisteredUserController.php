@@ -12,11 +12,4 @@ class RegisteredUserController extends Controller
     {
         return view('auth.register');
     }
-
-    public function store(RegisterRequest $request)
-    {
-        $user = $request->all();
-        User::create($user);
-        return view('auth.login');
-    }
 }

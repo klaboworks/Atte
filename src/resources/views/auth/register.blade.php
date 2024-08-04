@@ -40,7 +40,7 @@
                 <div class="form-items__unit">
                     <input class="form-items__input" class="form-items__input" type="password" name="password_confirmation" placeholder="確認用パスワード">
                     <div class="error-message">
-                        @error('password_confirm')
+                        @error('password_confirmation')
                         {{$message}}
                         @enderror
                     </div>

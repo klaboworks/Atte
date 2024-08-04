@@ -16,6 +16,7 @@
             <div class="header__logo">
                 <h1 class="logo__text">Atte</h1>
             </div>
+            @if(Auth::check())
             <div class="header__menu">
                 <nav>
                     <ul class="menu__list">
@@ -30,6 +31,7 @@
                     </ul>
                 </nav>
             </div>
+            @endif
         </div>
     </header>
     @yield('content')
