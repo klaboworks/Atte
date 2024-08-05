@@ -11,14 +11,22 @@
             <p class="greeting__text">さんお疲れ様です！</p>
         </div>
         <div class="attendance__functions">
-            <input type="hidden" name="start_work" value="">
-            <button class=btn__start_work>勤務開始</button>
-            <input type="hidden" name="end_work" value="">
-            <button class=btn__end_work>勤務終了</button>
-            <input type="hidden" name="start_rest" value="">
-            <button class=btn__start_rest>休憩開始</button>
-            <input type="hidden" name="end_rest" value="">
-            <button class=btn__end_rest>休憩終了</button>
+            <form action="startwork" method="post" class="form-unit">
+                <input type="hidden" name="start_work" value="">
+                <button class=btn__start_work>勤務開始</button>
+            </form>
+            <form action="endwork" method="post" class="form-unit">
+                <input type="hidden" name="end_work" value="">
+                <button class=btn__end_work>勤務終了</button>
+            </form>
+            <form action="startrest" method="post" class="form-unit">
+                <input type="hidden" name="start_rest" value="">
+                <button class=btn__start_rest>休憩開始</button>
+            </form>
+            <form action="endrest" method="post" class="form-unit">
+                <input type="hidden" name="end_rest" value="">
+                <button class=btn__end_rest>休憩終了</button>
+            </form>
         </div>
     </div>
 </section>
