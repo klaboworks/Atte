@@ -7,6 +7,36 @@
 
 .attendance__inner {
     max-width: 1200px;
-    margin: 160px auto 0;
+    margin: 120px auto 0;
     text-align: center;
+}
+
+.attendance__title--greeting {
+    margin-bottom: 40px;
+}
+
+.attendance__functions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+.form-unit {
+    width: calc(50% - 20px);
+    height: 240px;
+    border: none;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn__start_work,
+.btn__end_work,
+.btn__start_rest,
+.btn__end_rest {
+    border: none;
+    background-color: white;
+    font-size: 32px;
+    letter-spacing: 2px;
 }
