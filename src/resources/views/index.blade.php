@@ -8,7 +8,9 @@
 <section class="attendance">
     <div class="attendance__inner">
         <div class="attendance__title--greeting">
-            <p class="greeting__text">さんお疲れ様です！</p>
+            @auth
+            <p class="greeting__text">{{ Auth::user()->name }}さんお疲れ様です！</p>
+            @endauth
         </div>
         <div class="attendance__functions">
             <form action="startwork" method="post" class="form-unit">
