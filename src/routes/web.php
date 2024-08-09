@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthenticatedSessionController;
+use App\Http\Controllers\AttendanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +18,5 @@ use App\Http\Controllers\AuthenticatedSessionController;
 Route::middleware('auth')->group(function () {
     Route::get('/', [AuthenticatedSessionController::class, 'index']);
 });
+
+Route::post('/work/start', [AttendanceController::class, 'workStart']);
