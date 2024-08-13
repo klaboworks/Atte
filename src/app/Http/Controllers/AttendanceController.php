@@ -14,18 +14,22 @@ class AttendanceController extends Controller
     public function workStart()
     {
         $user = Auth::user();
+        $oldTimeStamp = Attendance::where('users_id', $user->id)->latest()->first();
 
-        $oldTimestamp = Attendance::where('users_id', $user->id)->latest()->first();
-        if ($oldTimestamp) {
-            $oldTimestampPunchIn = new Carbon($oldTimestamp->start_work);
-            $oldTimestampDay = $oldTimestampPunchIn->startOfDay();
+        $stamped = $oldTimeStamp->date;
+        $today = Carbon::now()->toDateString();
+
+        if ($stamped == $today) {
+            return redirect('/')->with('error', '出勤済みです');
         } else {
-            $timestamp = Attendance::create([
-                'users_id' => $user->id,
-                'date' => Carbon::now()->format('Y-m-d'),
-                'start_work' => Carbon::now()->format('H:i')
-            ]);
+            Attendance::create(
+                [
+                    'users_id' => $user->id,
+                    'date' => Carbon::now()->toDateString(),
+                    'start_work' => Carbon::now()->format('H:i:s'),
+                ]
+            );
+            return redirect('/')->with('my_status', '出勤打刻が完了しました');
         }
-        return redirect()->back()->with('my_status', '出勤打刻が完了しました');
     }
 }
