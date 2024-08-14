@@ -20,3 +20,4 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::post('/work/start', [AttendanceController::class, 'workStart']);
+Route::post('/work/end', [AttendanceController::class, 'workEnd']);

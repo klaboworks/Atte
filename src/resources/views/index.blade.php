@@ -20,6 +20,7 @@
                 <button class=btn__start_work>勤務開始</button>
             </form>
             <form action="work/end" method="post" class="form-unit">
+                @csrf
                 <input type="hidden" name="end_work" value="">
                 <button class=btn__end_work>勤務終了</button>
             </form>
