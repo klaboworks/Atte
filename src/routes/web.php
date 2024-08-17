@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\RestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,4 +21,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::post('/work/start', [AttendanceController::class, 'workStart']);
-Route::post('/work/end', [AttendanceController::class, 'workEnd']);
+Route::patch('/work/end', [AttendanceController::class, 'workEnd']);
+
+Route::post('/rest/start',[RestController::class,'restStart']);
+Route::patch('/rest/end',[RestController::class,'restEnd']);

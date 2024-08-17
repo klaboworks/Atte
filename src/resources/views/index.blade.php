@@ -20,16 +20,20 @@
                 <button class=btn__start_work>勤務開始</button>
             </form>
             <form action="work/end" method="post" class="form-unit">
+                @method('PATCH')
                 @csrf
-                <input type="hidden" name="end_work" value="">
+                <input type="hidden" name="end_work">
                 <button class=btn__end_work>勤務終了</button>
             </form>
             <form action="rest/start" method="post" class="form-unit">
-                <input type="hidden" name="start_rest" value="">
+                @csrf
+                <input type="hidden" name="start_rest">
                 <button class=btn__start_rest>休憩開始</button>
             </form>
             <form action="rest/end" method="post" class="form-unit">
-                <input type="hidden" name="end_rest" value="">
+                @method('PATCH')
+                @csrf
+                <input type="hidden" name="end_rest">
                 <button class=btn__end_rest>休憩終了</button>
             </form>
         </div>

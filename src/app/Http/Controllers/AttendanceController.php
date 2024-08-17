@@ -51,15 +51,24 @@ class AttendanceController extends Controller
         if ($oldTimeStamp) {
             $stamped = $oldTimeStamp->date;
             $today = Carbon::now()->toDateString();
-            if (($stamped == $today) && (!empty($oldTimeStamp->start_work)) && (!empty($oldTimeStamp->end_work))) {
+            if ($stamped == $today && !empty($oldTimeStamp->start_work) && !empty($oldTimeStamp->end_work)) {
                 return redirect('/')->with('my_status', '退勤済みです');
             } elseif ((!empty($oldTimeStamp->start_work)) && (!empty($oldTimeStamp->end_work))) {
                 return redirect('/')->with('my_status', '出勤されていません');
             } else {
-                $oldTimeStamp->update(
-                    ['end_work' => Carbon::now()->format('H:i:s')]
-                );
-                return redirect('/')->with('my_status', 'お疲れ様でした！');
+                $rest = Rest::where('attendances_id', $oldTimeStamp->id)->latest()->first();
+                if ($rest && empty($rest->end_rest)) {
+                    $rest->update(['end_rest' => Carbon::now()->format('H:i:s')]);
+                    $oldTimeStamp->update(
+                        ['end_work' => Carbon::now()->format('H:i:s')]
+                    );
+                    return redirect('/')->with('my_status', 'お疲れ様でした！');
+                } else {
+                    $oldTimeStamp->update(
+                        ['end_work' => Carbon::now()->format('H:i:s')]
+                    );
+                    return redirect('/')->with('my_status', 'お疲れ様でした！');
+                }
             }
         } else {
             return redirect('/')->with('error', '出勤されていません');
