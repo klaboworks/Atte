@@ -17,7 +17,7 @@
             <form action="/work/start" method="post" class="form-unit">
                 @csrf
                 <input type="hidden" name="start_work">
-                <button class=btn__start_work>勤務開始</button>
+                <button {{ Auth::user()->canStartWork() ? '' : 'disabled'  }} class=btn__start_work>勤務開始</button>
             </form>
             <form action="work/end" method="post" class="form-unit">
                 @method('PATCH')
