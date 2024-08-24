@@ -46,7 +46,9 @@
                         @endif
                         @endforeach
                     </td>
-                    <td>00:30:00</td>
+                    <td>
+                      
+                    </td>
                     <td>09:30:00</td>
                 </tr>
                 @endforeach
