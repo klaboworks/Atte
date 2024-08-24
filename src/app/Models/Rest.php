@@ -9,5 +9,10 @@ class Rest extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['attendances_id', 'start_rest', 'end_rest'];
+    protected $fillable = ['attendance_id', 'start_rest', 'end_rest'];
+
+    public function attendances()
+    {
+        return $this->belongsTo('App\Models\Attendance');
+    }
 }
