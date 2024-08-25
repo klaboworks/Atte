@@ -17,24 +17,24 @@
             <form action="/work/start" method="post" class="form-unit">
                 @csrf
                 <input type="hidden" name="start_work">
-                <button {{ Auth::user()->canStartWork() ? '' : 'disabled'  }} class=btn__start_work>勤務開始</button>
+                <button {{ Auth::user()->canStartWork() ? '' : 'disabled' }} class="btn__start_work">勤務開始</button>
             </form>
             <form action="work/end" method="post" class="form-unit">
                 @method('PATCH')
                 @csrf
                 <input type="hidden" name="end_work">
-                <button class=btn__end_work>勤務終了</button>
+                <button {{ Auth::user()->canEndWork() ? '' : 'disabled' }} class=btn__end_work>勤務終了</button>
             </form>
             <form action="rest/start" method="post" class="form-unit">
                 @csrf
                 <input type="hidden" name="start_rest">
-                <button class=btn__start_rest>休憩開始</button>
+                <button class=btn__start_rest {{ Auth::user()->canStartRest() ? 'disabled' : '' }}>休憩開始</button>
             </form>
             <form action="rest/end" method="post" class="form-unit">
                 @method('PATCH')
                 @csrf
                 <input type="hidden" name="end_rest">
-                <button class=btn__end_rest>休憩終了</button>
+                <button class=btn__end_rest {{ Auth::user()->canEndRest() ? 'disabled' : '' }}>休憩終了</button>
             </form>
         </div>
         @if (session('my_status'))

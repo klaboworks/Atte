@@ -13,69 +13,41 @@ class RestController extends Controller
     public function restStart()
     {
         $user = Auth::user();
-        $attends = Attendance::where('users_id', $user->id)->latest()->first();
+        $attends = Attendance::where('user_id', $user->id)->latest()->first();
 
         if ($attends) {
-            $stamped = $attends->date;
-            $today = Carbon::now()->toDateString();
-            if ($attends->start_work && $attends->end_work) {
-                if ($stamped != $today) {
-                    return redirect('/')->with('error', '先に出勤してください');
-                } else {
-                    return redirect('/')->with('error', '本日の勤務は終了しています');
-                }
-            } elseif ($attends) {
-                $rest =  Rest::where('attendances_id', $attends->id)->latest()->first();
-                if ($rest) {
-                    if (empty($rest->end_rest)) {
-                        return redirect('/')->with('error', '既に休憩が開始されています');
-                    } elseif ($rest->start_rest && $rest->end_rest) {
-                        Rest::create([
-                            'attendances_id' => $attends->id,
-                            'start_rest' => Carbon::now()->format('H:i:s')
-                        ]);
-                        return redirect('/')->with('my_status', '休憩を開始しました');
-                    }
-                } else {
-                    Rest::create([
-                        'attendances_id' => $attends->id,
-                        'start_rest' => Carbon::now()->format('H:i:s')
-                    ]);
-                    return redirect('/')->with('my_status', '休憩を開始しました');
-                }
+            $today = Carbon::now()->startOfDay();
+            $latestWorkDate = new Carbon($attends->date);
+            $latestRest = Rest::where('attendance_id', $attends->id)->latest()->first();
+
+            if ($latestRest && !$latestRest->end_rest) {
+                return redirect('/');
             }
-        } else {
-            return redirect('/')->with('error', '先に出勤してください');
+
+            if ($latestWorkDate->eq($today) && !$attends->end_work) {
+                Rest::create([
+                    'attendance_id' => $attends->id,
+                    'start_rest' => Carbon::now()->format('H:i:s')
+                ]);
+                return redirect('/');
+            }
         }
+        return redirect('/');
     }
 
     public function restEnd()
     {
         $user = Auth::user();
-        $attends = Attendance::where('users_id', $user->id)->latest()->first();
+        $attends = Attendance::where('user_id', $user->id)->latest()->first();
 
         if ($attends) {
-            $stamped = $attends->date;
-            $today = Carbon::now()->toDateString();
-            if ($attends->start_work && $attends->end_work) {
-                if ($stamped != $today) {
-                    return redirect('/')->with('error', '先に出勤してください');
-                } else {
-                    return redirect('/')->with('error', '本日の勤務は終了しています');
-                }
-            } elseif ($attends) {
-                $rest =  Rest::where('attendances_id', $attends->id)->latest()->first();
-                if ($rest && empty($rest->end_rest)) {
-                    $rest->update([
-                        'end_rest' => Carbon::now()->format('H:i:s')
-                    ]);
-                    return redirect('/')->with('my_status', '休憩を終了しました');
-                } else {
-                    return redirect('/')->with('error', '休憩が開始されていません');
-                }
+            $latestRest = Rest::where('attendance_id', $attends->id)->latest()->first();
+
+            if ($latestRest && !$latestRest->end_rest) {
+                $latestRest->update(['end_rest' => Carbon::now()]);
+                return redirect('/');
             }
-        } else {
-            return redirect('/')->with('error', '先に出勤してください');
         }
+        return redirect('/');
     }
 }
