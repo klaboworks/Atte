@@ -16,31 +16,28 @@ class AttendanceController extends Controller
         $user = Auth::user();
         $oldTimeStamp = Attendance::where('users_id', $user->id)->latest()->first();
 
-        if ($oldTimeStamp) {
-            $stamped = $oldTimeStamp->date;
-            $today = Carbon::now()->toDateString();
-            if (($stamped == $today)) {
-                return redirect('/')->with('error', '出勤済みです');
-            } else {
-                Attendance::create(
-                    [
-                        'users_id' => $user->id,
-                        'date' => Carbon::now()->toDateString(),
-                        'start_work' => Carbon::now()->format('H:i:s'),
-                    ]
-                );
-                return redirect('/')->with('my_status', '出勤打刻が完了しました');
-            }
-        } else {
+        if (!$oldTimeStamp) {
             Attendance::create(
                 [
                     'users_id' => $user->id,
-                    'date' => Carbon::now()->toDateString(),
-                    'start_work' => Carbon::now()->format('H:i:s'),
+                    'date' => Carbon::now(),
+                    'start_work' => Carbon::now(),
                 ]
             );
             return redirect('/')->with('my_status', '出勤打刻が完了しました');
         }
+
+        $stamped = new Carbon($oldTimeStamp->date);
+        $today = Carbon::now();
+        if ($stamped->eq($today)) {
+            return redirect('/')->with('error', '出勤済みです');
+        }
+        Attendance::create([
+            'users_id' => $user->id,
+            'date' => Carbon::now(),
+            'start_work' => Carbon::now(),
+        ]);
+        return redirect('/')->with('my_status', '出勤打刻が完了しました');
     }
 
     public function workEnd()
