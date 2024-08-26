@@ -14,64 +14,61 @@ class AttendanceController extends Controller
     public function workStart()
     {
         $user = Auth::user();
-        $oldTimeStamp = Attendance::where('users_id', $user->id)->latest()->first();
+        $oldTimeStamp = Attendance::where('user_id', $user->id)->latest()->first();
 
         if ($oldTimeStamp) {
-            $stamped = $oldTimeStamp->date;
-            $today = Carbon::now()->toDateString();
-            if (($stamped == $today)) {
-                return redirect('/')->with('error', '出勤済みです');
-            } else {
-                Attendance::create(
-                    [
-                        'users_id' => $user->id,
-                        'date' => Carbon::now()->toDateString(),
-                        'start_work' => Carbon::now()->format('H:i:s'),
-                    ]
-                );
-                return redirect('/')->with('my_status', '出勤打刻が完了しました');
-            }
+            $stamped = new Carbon($oldTimeStamp->date);
+            $today = Carbon::now()->startOfDay();
         } else {
-            Attendance::create(
-                [
-                    'users_id' => $user->id,
-                    'date' => Carbon::now()->toDateString(),
-                    'start_work' => Carbon::now()->format('H:i:s'),
-                ]
-            );
-            return redirect('/')->with('my_status', '出勤打刻が完了しました');
+            Attendance::create([
+                'user_id' => $user->id,
+                'date' => Carbon::now(),
+                'start_work' => Carbon::now()->format('H:i:s'),
+            ]);
+            return redirect('/');
+        }
+
+        if ($stamped->eq($today)) {
+            return redirect('/');
+        } else {
+            Attendance::create([
+                'user_id' => $user->id,
+                'date' => Carbon::now(),
+                'start_work' => Carbon::now()->format('H:i:s'),
+            ]);
+            return redirect('/');
         }
     }
 
     public function workEnd()
     {
         $user = Auth::user();
-        $oldTimeStamp = Attendance::where('users_id', $user->id)->latest()->first();
+        $oldTimeStamp = Attendance::where('user_id', $user->id)->latest()->first();
 
         if ($oldTimeStamp) {
-            $stamped = $oldTimeStamp->date;
-            $today = Carbon::now()->toDateString();
-            if ($stamped == $today && !empty($oldTimeStamp->start_work) && !empty($oldTimeStamp->end_work)) {
-                return redirect('/')->with('my_status', '退勤済みです');
-            } elseif ((!empty($oldTimeStamp->start_work)) && (!empty($oldTimeStamp->end_work))) {
-                return redirect('/')->with('my_status', '出勤されていません');
-            } else {
-                $rest = Rest::where('attendances_id', $oldTimeStamp->id)->latest()->first();
-                if ($rest && empty($rest->end_rest)) {
-                    $rest->update(['end_rest' => Carbon::now()->format('H:i:s')]);
-                    $oldTimeStamp->update(
-                        ['end_work' => Carbon::now()->format('H:i:s')]
-                    );
-                    return redirect('/')->with('my_status', 'お疲れ様でした！');
-                } else {
-                    $oldTimeStamp->update(
-                        ['end_work' => Carbon::now()->format('H:i:s')]
-                    );
-                    return redirect('/')->with('my_status', 'お疲れ様でした！');
-                }
-            }
+            $stamped = new Carbon($oldTimeStamp->date);
+            $today = Carbon::now()->startOfDay();
         } else {
-            return redirect('/')->with('error', '出勤されていません');
+            return redirect('/');
+        }
+
+        if ($stamped->eq($today) && $oldTimeStamp->start_work && $oldTimeStamp->end_work) {
+            return redirect('/');
+        }
+
+        //退勤時休憩を強制終了
+        $rest = Rest::where('attendance_id', $oldTimeStamp->id)->latest()->first();
+        if ($rest && empty($rest->end_rest)) {
+            $rest->update(['end_rest' => Carbon::now()->format('H:i:s')]);
+            $oldTimeStamp->update(
+                ['end_work' => Carbon::now()->format('H:i:s')]
+            );
+            return redirect('/');
+        } else {
+            $oldTimeStamp->update(
+                ['end_work' => Carbon::now()->format('H:i:s')]
+            );
+            return redirect('/');
         }
     }
 }
