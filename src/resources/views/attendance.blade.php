@@ -34,22 +34,24 @@
                     <th class="user-name">{{$user->name}}</th>
                     <td>
                         @foreach($works as $work)
-                        @if($user->id === $work->users_id)
+                        @if($user->id === $work->user_id)
                         {{$work->start_work}}
                         @endif
                         @endforeach
                     </td>
                     <td>
                         @foreach($works as $work)
-                        @if($user->id === $work->users_id)
+                        @if($user->id === $work->user_id)
                         {{$work->end_work}}
                         @endif
                         @endforeach
                     </td>
                     <td>
-                      
+                        {{ $workTimes }}
                     </td>
-                    <td>09:30:00</td>
+                    <td>
+                        {{ $restSums }}
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
