@@ -20,4 +20,15 @@ class Attendance extends Model
     {
         return $this->hasMany('App\Models\Rest');
     }
+
+    public function workTime()
+    {
+        
+        return 0;
+    }
+
+    public function restSum()
+    {
+        return 0;
+    }
 }

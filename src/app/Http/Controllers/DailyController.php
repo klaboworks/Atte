@@ -15,6 +15,11 @@ class DailyController extends Controller
         $today = Carbon::today()->toDateString();
         $users = User::all();
         $works = Attendance::where('date', $today)->get();
-        return view('attendance', compact('today', 'users', 'works'));
+
+        $attendance = new Attendance;
+        $workTimes = $attendance->workTime();
+        $restSums = $attendance->restSum();
+
+        return view('attendance', compact('today', 'users', 'works', 'workTimes','restSums'));
     }
 }
