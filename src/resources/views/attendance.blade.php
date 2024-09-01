@@ -47,10 +47,10 @@
                         @endforeach
                     </td>
                     <td>
-                        {{ $workTimes }}
+                        {{ $restSums }}
                     </td>
                     <td>
-                        {{ $restSums }}
+                        {{ $workTimes }}
                     </td>
                 </tr>
                 @endforeach
