@@ -37,12 +37,6 @@
                 <button class=btn__end_rest {{ Auth::user()->canEndRest() ? 'disabled' : '' }}>休憩終了</button>
             </form>
         </div>
-        @if (session('my_status'))
-        {{ session('my_status') }}
-        @endif
-        @if(session('error'))
-        {{ session('error') }}
-        @endif
     </div>
 </section>
 @endsection

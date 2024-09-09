@@ -30,27 +30,22 @@
             </thead>
             <tbody class="table-data">
                 @foreach($users as $user)
+                @php
+                $attendance = $user->todayAttendance();
+                @endphp
                 <tr>
                     <th class="user-name">{{$user->name}}</th>
                     <td>
-                        @foreach($works as $work)
-                        @if($user->id === $work->user_id)
-                        {{$work->start_work}}
-                        @endif
-                        @endforeach
+                        {{$attendance->start_work ?? ''}}
                     </td>
                     <td>
-                        @foreach($works as $work)
-                        @if($user->id === $work->user_id)
-                        {{$work->end_work}}
-                        @endif
-                        @endforeach
+                        {{$attendance->end_work ?? ''}}
                     </td>
                     <td>
-                        {{ $restSums }}
+                        {{ $attendance ?  $attendance->restSum() : '' }}
                     </td>
                     <td>
-                        {{ $workTimes }}
+                        {{ $attendance ?  $attendance->workTime() : '' }}
                     </td>
                 </tr>
                 @endforeach

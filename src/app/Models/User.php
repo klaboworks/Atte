@@ -45,8 +45,15 @@ class User extends Authenticatable
 
     public function attendances()
     {
-
         return $this->hasMany('App\Models\Attendance', 'user_id');
+    }
+
+    public function todayAttendance()
+    {
+        return $this
+            ->hasMany('App\Models\Attendance')
+            ->whereDate('date', Carbon::today())
+            ->first();
     }
 
     public function rests()
@@ -56,7 +63,6 @@ class User extends Authenticatable
             Attendance::class,
         );
     }
-
 
     public function canStartWork()
     {

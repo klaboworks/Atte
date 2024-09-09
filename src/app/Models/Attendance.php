@@ -24,19 +24,14 @@ class Attendance extends Model
 
     public function workTime()
     {
-        $today = Carbon::now()->startOfDay();
-        $attendances = Attendance::where('date',$today)->get();
-        foreach($attendances as $attendance){
-            $start_work = new Carbon($attendance->end_work);
-            $end_work = new Carbon($attendance->start_work);
-            $workTime = $start_work->diffInSeconds($end_work);
-            return $workTime;
-        }
-        // return 0;
+        $startWork = new Carbon($this->start_work);
+        $endWork =  new Carbon($this->end_work);
+        $workTime = $startWork->diffInSeconds($endWork);
+        return $workTime;
     }
 
     public function restSum()
     {
-        return 0;
+        return $this->hasMany('App\Models\Rest')->get();
     }
 }
