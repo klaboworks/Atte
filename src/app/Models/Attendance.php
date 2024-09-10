@@ -32,6 +32,11 @@ class Attendance extends Model
 
     public function restSum()
     {
-        return $this->hasMany('App\Models\Rest')->get();
+        $rests = $this->hasMany(Rest::class)->get();
+        $restTotal = 0;
+        foreach ($rests as $rest) {
+            $restTotal += $rest->rests();
+        }
+        return $restTotal;
     }
 }

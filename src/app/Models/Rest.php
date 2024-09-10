@@ -20,7 +20,7 @@ class Rest extends Model
     public function rests(){
         $startRest = new Carbon($this->start_rest);
         $endRest = new Carbon($this->end_rest);
-        $restTime = $startRest->diffInSeconds($endRest);
-        return $restTime;
+        $restTimes = $startRest->diffInSeconds($endRest);
+        return $restTimes;
     }
 }
