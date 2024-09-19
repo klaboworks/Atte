@@ -9,13 +9,21 @@
     <div class="daily__inner">
         <div class="daily__date-elements">
             <div class="date-elements__yesterday">
-                <button class="btn__yesterday">&lt;</button>
+                <form action="/attendance/?date={{$date->format('Y-m-d')}}" method="post">
+                    @csrf
+                    <button class="btn__yesterday">&lt;</button>
+                    <input type="hidden" name="day" value="0">
+                </form>
             </div>
             <div class="date-elements__today">
-                {{$today}}
+                {{$date->format('Y-m-d')}}
             </div>
             <div class="date-elements__tommorow">
-                <button class="btn__tommorow">&gt;</button>
+                <form action="/attendance/?date={{$date->format('Y-m-d')}}" method="post">
+                    @csrf
+                    <button class="btn__tommorow">&gt;</button>
+                    <input type="hidden" name="day" value="1">
+                </form>
             </div>
         </div>
         <table class="attendances__table">
@@ -31,7 +39,7 @@
             <tbody class="table-data">
                 @foreach($users as $user)
                 @php
-                $attendance = $user->todayAttendance();
+                $attendance = $user->specifiedDateAttendance($date);
                 @endphp
                 <tr>
                     <th class="user-name">{{$user->name}}</th>

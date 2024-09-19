@@ -20,6 +20,7 @@ use App\Http\Controllers\DailyController;
 Route::middleware('auth')->group(function () {
     Route::get('/', [AuthenticatedSessionController::class, 'index']);
     Route::get('/attendance',[DailyController::class,'index']);
+    Route::post('/attendance',[DailyController::class, 'viewOtherDays']);
 });
 
 Route::post('/work/start', [AttendanceController::class, 'workStart']);
