@@ -10,11 +10,24 @@ use Carbon\Carbon;
 
 class DailyController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $today = Carbon::today()->toDateString();
         $users = User::all();
+        $date = new Carbon($request->date);
+        return view('attendance', compact('users', 'date'));
+    }
 
-        return view('attendance', compact('today', 'users'));
+    public function viewOtherDays(Request $request)
+    {
+        $users = User::all();
+        $date = new Carbon($request->date);
+        $require = $request->day;
+        if ($require == 0) {
+            $date->subDay(1);
+        } else {
+            $date->addDay(1);
+        }
+
+        return view('attendance', compact('users', 'date'));
     }
 }

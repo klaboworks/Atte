@@ -48,11 +48,12 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Attendance', 'user_id');
     }
 
-    public function todayAttendance()
+    public function specifiedDateAttendance(String $date)
     {
+        $specifiedDate = new Carbon($date);
         return $this
             ->hasMany('App\Models\Attendance')
-            ->whereDate('date', Carbon::today())
+            ->whereDate('date', $specifiedDate)
             ->first();
     }
 
