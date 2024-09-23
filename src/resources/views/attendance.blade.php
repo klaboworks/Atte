@@ -42,7 +42,9 @@
                 $attendance = $user->specifiedDateAttendance($date);
                 @endphp
                 <tr>
-                    <th class="user-name">{{$user->name}}</th>
+                    <th class="user-name">
+                        {{$user->name}}
+                    </th>
                     <td>
                         {{$attendance->start_work ?? ''}}
                     </td>

@@ -1,10 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\AttendanceController;
-use App\Http\Controllers\RestController;
+use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\DailyController;
+use App\Http\Controllers\RestController;
+use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [AuthenticatedSessionController::class, 'index']);
     Route::get('/attendance',[DailyController::class,'index']);
     Route::post('/attendance',[DailyController::class, 'viewOtherDays']);
+    
+    Route::get('/users', [UsersController::class, 'index']);
+    Route::get('/users/attendance/{id}', [UsersController::class, 'showUserAttendance'])->name('users.attendance');
 });
 
 Route::post('/work/start', [AttendanceController::class, 'workStart']);

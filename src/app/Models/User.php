@@ -45,15 +45,16 @@ class User extends Authenticatable
 
     public function attendances()
     {
-        return $this->hasMany('App\Models\Attendance', 'user_id');
+        return $this->hasMany(Attendance::class, 'user_id');
     }
 
     public function specifiedDateAttendance(String $date)
     {
-        $specifiedDate = new Carbon($date);
+        // $specifiedDate = new Carbon($date);
+        //                  ^^^ DailyControllerでCarbonインスタンス化しているので必要ないのでは？？
         return $this
-            ->hasMany('App\Models\Attendance')
-            ->whereDate('date', $specifiedDate)
+            ->hasMany(Attendance::class)
+            ->whereDate('date', $date)
             ->first();
     }
 
