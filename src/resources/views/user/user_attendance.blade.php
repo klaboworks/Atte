@@ -13,7 +13,10 @@
             <p>{{$user->id}}</p>
             <p>{{$user->email}}</p>
         </div>
-        {{$user->attendances()->get()}}
+        @foreach($user->attendances()->get() as $attendance)
+        {{$attendance->start_work}}
+        @endforeach
+
     </div>
     </div>
 </section>

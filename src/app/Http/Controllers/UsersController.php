@@ -16,6 +16,6 @@ class UsersController extends Controller
     public function showUserAttendance(Request $request)
     {
         $user = User::find($request->id);
-        return view('user_attendance', compact('user'));
+        return view('user.user_attendance', compact('user'));
     }
 }

@@ -50,8 +50,7 @@ class User extends Authenticatable
 
     public function specifiedDateAttendance(String $date)
     {
-        // $specifiedDate = new Carbon($date);
-        //                  ^^^ DailyControllerでCarbonインスタンス化しているので必要ないのでは？？
+        $specifiedDate = new Carbon($date);
         return $this
             ->hasMany(Attendance::class)
             ->whereDate('date', $date)

@@ -21,7 +21,6 @@ use App\Http\Controllers\UsersController;
 Route::middleware('auth')->group(function () {
     Route::get('/', [AuthenticatedSessionController::class, 'index']);
     Route::get('/attendance',[DailyController::class,'index']);
-    Route::post('/attendance',[DailyController::class, 'viewOtherDays']);
     
     Route::get('/users', [UsersController::class, 'index']);
     Route::get('/users/attendance/{id}', [UsersController::class, 'showUserAttendance'])->name('users.attendance');
