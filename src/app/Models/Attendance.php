@@ -26,9 +26,17 @@ class Attendance extends Model
     {
         $startWork = new Carbon($this->start_work);
         $endWork =  new Carbon($this->end_work);
-        $workTime = $startWork->diffInSeconds($endWork);
+        $diffInSeconds = $startWork->diffInSeconds($endWork);
+
+        $hours = sprintf('%02d', floor($diffInSeconds / 3600));
+        $minutes = sprintf('%02d', floor(($diffInSeconds % 3600) / 60));
+        $seconds = sprintf('%02d', $diffInSeconds % 60);
+
+        $workTime = "$hours:$minutes:$seconds";
+
         return $workTime;
     }
+
 
     public function restSum()
     {
@@ -37,6 +45,13 @@ class Attendance extends Model
         foreach ($rests as $rest) {
             $restTotal += $rest->rests();
         }
-        return $restTotal;
+
+        $hours = sprintf('%02d', floor($restTotal / 3600));
+        $minutes = sprintf('%02d', floor(($restTotal % 3600) / 60));
+        $seconds = sprintf('%02d', $restTotal % 60);
+
+        $restSum = "$hours:$minutes:$seconds";
+
+        return $restSum;
     }
 }

@@ -9,20 +9,18 @@
     <div class="daily__inner">
         <div class="daily__date-elements">
             <div class="date-elements__yesterday">
-                <form action="/attendance/?date={{$date->format('Y-m-d')}}" method="post">
-                    @csrf
+                <form action="/attendance/?date={{$date->format('Y-m-d')}}">
                     <button class="btn__yesterday">&lt;</button>
-                    <input type="hidden" name="day" value="0">
+                    <input type="hidden" name="date" value="{{$date->copy()->subDay()->format('Y-m-d')}}">
                 </form>
             </div>
             <div class="date-elements__today">
                 {{$date->format('Y-m-d')}}
             </div>
             <div class="date-elements__tommorow">
-                <form action="/attendance/?date={{$date->format('Y-m-d')}}" method="post">
-                    @csrf
+                <form action="/attendance/?date={{$date->format('Y-m-d')}}">
                     <button class="btn__tommorow">&gt;</button>
-                    <input type="hidden" name="day" value="1">
+                    <input type="hidden" name="date" value="{{$date->copy()->addDay()->format('Y-m-d')}}">
                 </form>
             </div>
         </div>
@@ -42,7 +40,9 @@
                 $attendance = $user->specifiedDateAttendance($date);
                 @endphp
                 <tr>
-                    <th class="user-name">{{$user->name}}</th>
+                    <th class="user-name">
+                        {{$user->name}}
+                    </th>
                     <td>
                         {{$attendance->start_work ?? ''}}
                     </td>

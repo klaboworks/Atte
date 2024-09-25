@@ -1,0 +1,31 @@
+.users {
+    position: absolute;
+    inset: 0;
+    z-index: -100;
+    background-color: #f2f2f2;
+}
+
+.users__inner {
+    max-width: 1024px;
+    margin: 120px auto 0;
+    text-align: center;
+}
+
+.users-table{
+    width: 100%;
+}
+
+.table-head>tr>th {
+    padding: 24px 0px;
+    padding-left: 32px;
+    text-align: start;
+    border-top: solid 1px #909090;
+}
+
+.table-data>tr>th,
+.table-data>tr>td {
+    border-top: solid 1px #909090;
+    padding: 24px 0px;
+    padding-left: 32px;
+    text-align: start;
+}
