@@ -12,7 +12,7 @@ class DailyController extends Controller
 {
     public function index(Request $request)
     {
-        $users = User::all();
+        $users = User::Paginate(5);
         $date = new Carbon($request->date);
         return view('attendance', compact('users', 'date'));
     }
