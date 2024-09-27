@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 
 class Attendance extends Model
 {
@@ -22,23 +23,7 @@ class Attendance extends Model
         return $this->hasMany('App\Models\Rest');
     }
 
-    public function workTime()
-    {
-        $startWork = new Carbon($this->start_work);
-        $endWork =  new Carbon($this->end_work);
-        $diffInSeconds = $startWork->diffInSeconds($endWork);
-
-        $hours = sprintf('%02d', floor($diffInSeconds / 3600));
-        $minutes = sprintf('%02d', floor(($diffInSeconds % 3600) / 60));
-        $seconds = sprintf('%02d', $diffInSeconds % 60);
-
-        $workTime = "$hours:$minutes:$seconds";
-
-        return $workTime;
-    }
-
-
-    public function restSum()
+    public function restSeconds()
     {
         $rests = $this->hasMany(Rest::class)->get();
         $restTotal = 0;
@@ -46,6 +31,12 @@ class Attendance extends Model
             $restTotal += $rest->rests();
         }
 
+        return $restTotal;
+    }
+
+    public function restSum()
+    {
+        $restTotal = $this->restSeconds();
         $hours = sprintf('%02d', floor($restTotal / 3600));
         $minutes = sprintf('%02d', floor(($restTotal % 3600) / 60));
         $seconds = sprintf('%02d', $restTotal % 60);
@@ -53,5 +44,27 @@ class Attendance extends Model
         $restSum = "$hours:$minutes:$seconds";
 
         return $restSum;
+    }
+
+    public function workSeconds()
+    {
+        $startWork = new Carbon($this->start_work);
+        $endWork =  new Carbon($this->end_work);
+        $diffInSeconds = $startWork->diffInSeconds($endWork);
+        $workSeconds = $diffInSeconds - $this->restSeconds();
+
+        return $workSeconds;
+    }
+
+    public function workTime()
+    {
+        $workSeconds = $this->workSeconds();
+        $hours = sprintf('%02d', floor($workSeconds / 3600));
+        $minutes = sprintf('%02d', floor(($workSeconds % 3600) / 60));
+        $seconds = sprintf('%02d', $workSeconds % 60);
+
+        $workTime = "$hours:$minutes:$seconds";
+
+        return $workTime;
     }
 }

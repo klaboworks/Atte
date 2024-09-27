@@ -20,7 +20,7 @@ class UsersController extends Controller
     {
         $user = User::find($request->id);
         $month = new Carbon($request->month);
-        $period = CarbonPeriod::create(now()->startOfMonth(), now()->endOfMonth());
+        $period = CarbonPeriod::create($month->copy()->startOfMonth(), $month->copy()->endOfMonth());
 
         foreach ($period as $months) {
             $dates[] = $months;

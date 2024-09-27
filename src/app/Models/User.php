@@ -53,8 +53,31 @@ class User extends Authenticatable
         $specifiedDate = new Carbon($date);
         return $this
             ->hasMany(Attendance::class)
-            ->whereDate('date', $date)
+            ->whereDate('date', $specifiedDate)
             ->first();
+    }
+
+    public function monthlyAttendance(String $month)
+    {
+        $specifiedMonth = new Carbon($month);
+        $from = $specifiedMonth->copy()->startOfMonth();
+        $to = $specifiedMonth->endOfMonth();
+        $workTimes =
+            $this
+            ->hasMany(Attendance::class)
+            ->whereBetween('date', [$from, $to])->get();
+
+        $workTotal = 0;
+        foreach ($workTimes as $workTime) {
+            $workTotal += $workTime->workSeconds();
+        }
+        $hours = sprintf('%02d', floor($workTotal / 3600));
+        $minutes = sprintf('%02d', floor(($workTotal % 3600) / 60));
+        $seconds = sprintf('%02d', $workTotal % 60);
+
+        $workTime = "$hours:$minutes:$seconds";
+
+        return $workTime;
     }
 
     public function rests()
@@ -63,6 +86,31 @@ class User extends Authenticatable
             Rest::class,
             Attendance::class,
         );
+    }
+
+    public function monthlyRests(String $month)
+    {
+        $specifiedMonth = new Carbon($month);
+        $from = $specifiedMonth->copy()->startOfMonth();
+        $to = $specifiedMonth->endOfMonth();
+        $rests =
+            $this
+            ->hasManyThrough(Rest::class,Attendance::class)
+            ->whereBetween('date', [$from, $to])
+            ->get();
+
+        $restTotal = 0;
+        foreach ($rests as $rest) {
+            $restTotal += $rest->rests();
+        }
+
+        $hours = sprintf('%02d', floor($restTotal / 3600));
+        $minutes = sprintf('%02d', floor(($restTotal % 3600) / 60));
+        $seconds = sprintf('%02d', $restTotal % 60);
+
+        $restSum = "$hours:$minutes:$seconds";
+
+        return $restSum;
     }
 
     public function canStartWork()

@@ -17,7 +17,7 @@
                     </form>
                 </div>
                 <div class="date-elements__today">
-                    {{$month->format('Y-m')}}
+                    {{$month->format('Y年m月')}}
                 </div>
                 <div class="date-elements__tommorow">
                     <form action=" {{ route('users.attendance' , $user->id ) }}">
@@ -51,8 +51,17 @@
                     <td>{{ $attendance ?  $attendance->workTime() : '' }}</td>
                 </tr>
                 @endforeach
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <th>合計 </th>
+                    <td> {{$user->monthlyRests($month)}} </td>
+                    <td> {{$user->monthlyAttendance($month)}}</td>
+                </tr>
             </tbody>
         </table>
+
+
     </div>
 </section>
 @endsection
