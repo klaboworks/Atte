@@ -25,6 +25,7 @@
                 @endforeach
             </tbody>
         </table>
+        {{ $users->links('vendor.pagination.bootstrap-4') }}
     </div>
 </section>
 @endsection

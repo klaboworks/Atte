@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Attendance;
-use App\Models\Rest;
+use Illuminate\Pagination\Paginator;
 use Carbon\Carbon;
 
 class DailyController extends Controller
