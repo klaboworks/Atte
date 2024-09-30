@@ -23,10 +23,11 @@
 データベース：MySQL
 
 ## テーブル設計
-https://github.com/klaboworks/Atte/issues/31#issue-2556283094
+![Atte_tables](https://github.com/user-attachments/assets/75141d4a-a748-405b-a0bd-fd98682b6069)
 
 ## ER図
-https://github.com/klaboworks/Atte/issues/30#issue-2556243700
+![ER](https://github.com/user-attachments/assets/2c20a5d4-3d87-4c84-8123-b77df79a1aad)
+
 
 # 環境構築
 ### gitをクローン
