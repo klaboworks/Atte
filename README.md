@@ -49,3 +49,6 @@
     DB_DATABASE=laravel_db  
     DB_USERNAME=laravel_user  
     DB_PASSWORD=laravel_pass  
+### マイグレーション
+ - `docker-compose exec php bash`
+ - `php artisan migrate`
