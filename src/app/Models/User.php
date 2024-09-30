@@ -57,7 +57,7 @@ class User extends Authenticatable
             ->first();
     }
 
-    public function monthlyAttendance(String $month)
+    public function monthlyAttendanceInSeconds(String $month)
     {
         $specifiedMonth = new Carbon($month);
         $from = $specifiedMonth->copy()->startOfMonth();
@@ -71,6 +71,13 @@ class User extends Authenticatable
         foreach ($workTimes as $workTime) {
             $workTotal += $workTime->workSeconds();
         }
+
+        return $workTotal;
+    }
+
+    public function monthlyAttendance(String $month)
+    {
+        $workTotal = $this->monthlyAttendanceInSeconds($month);
         $hours = sprintf('%02d', floor($workTotal / 3600));
         $minutes = sprintf('%02d', floor(($workTotal % 3600) / 60));
         $seconds = sprintf('%02d', $workTotal % 60);
@@ -95,7 +102,7 @@ class User extends Authenticatable
         $to = $specifiedMonth->endOfMonth();
         $rests =
             $this
-            ->hasManyThrough(Rest::class,Attendance::class)
+            ->hasManyThrough(Rest::class, Attendance::class)
             ->whereBetween('date', [$from, $to])
             ->get();
 
