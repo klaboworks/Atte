@@ -22,7 +22,7 @@
                     <ul class="menu__list">
                         <li class="menu__items"><a href="/">ホーム</a></li>
                         <li class="menu__items"><a href="/users">ユーザー一覧</a></li>
-                        <li class="menu__items"><a href="/attendance/?date={{\Carbon\Carbon::today()->format('Y-m-d')}}">日付一覧</a></li>
+                        <li class="menu__items"><a href="/attendance">日付一覧</a></li>
                         <li class="menu__items">
                             <form action="/logout" method="post">
                                 @csrf
